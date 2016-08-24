@@ -1,0 +1,81 @@
+<html>
+<head>
+    <script src="jquery.min.js"></script>
+    <script src="bootstrap.min.js"></script>
+    <link href="bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="alert alert-danger" style="text-align: center"> 
+        <button type="button" class="close" aria-hidden="true"> 
+            &times;
+        </button> 
+        Your browser can not support cross-domain access now.
+    </div>
+    
+    <div class="container"> 
+        <div class="jumbotron"> 
+            <h1>Access cross-domain now</h1> 
+            <p>Following the guidance and you will enjoy the fake-dynamic-webpage</p> 
+        </div>
+    </div>
+    
+    <div class="panel panel-info" style="width: 80%; margin: auto;"> 
+        <div class="panel-heading"> 
+            <h3 class="panel-title">Ensure you're using Chrome</h3> 
+        </div> 
+        <div class="panel-body"> 
+            <p>It is a pity that this system is now only support Chrome right now. </p>
+            <p>The official website of Chrome is <a href="https://www.google.com/intl/en/chrome/browser/desktop/">https://www.google.com/intl/en/chrome/browser/desktop/</a> </p>
+            <p>And the Chinese official website is <a href="http://www.chromeliulanqi.com/">http://www.chromeliulanqi.com/</a></p>
+        </div> 
+    </div>
+    <br>
+    <div class="panel panel-info" style="width: 80%; margin: auto;"> 
+        <div class="panel-heading"> 
+            <h3 class="panel-title">Open your windows command line tool</h3> 
+        </div>
+        <div class="panel-body"> 
+            <p>Press win + R in the keyboard to open the "run" process</p>
+            <p>Input "cmd" in the text field</p>
+            <p>Press "enter" to open command line</p>
+        </div>
+    </div>
+    <br>
+    <div class="panel panel-info" style="width: 80%; margin: auto;"> 
+        <div class="panel-heading"> 
+            <h3 class="panel-title">Find where is your chrome installed</h3> 
+        </div>
+        <div class="panel-body"> 
+            <p>Just click the button and make it inside your clipboard</p>
+            <p>
+                If your chrome is in your "C:\Program Files (x86)" <br>
+                <input type="text" style="width: 50%; float: left" class="form-control" id="name" placeholder="please input the command" value="C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"/>
+                <input type="text" style="width: 30%" class="form-control" id="name" placeholder="please input the command" value="--disable-web-security --user-data-dir"/>
+            </p>
+            <p>
+                If your chrome is in your "C:\Program Files"
+                <input type="text" style="width: 50%" class="form-control" id="name" placeholder="please input the command" value="C:\Program Files\Google\Chrome\Application\chrome.exe"/>
+            </p>
+            <p>press "enter" to open command line</p>
+        </div>
+    </div>
+<body>
+</html>
+
+<script>
+    
+    $("button.close[type='button']").click(function() {
+        $("div.alert-danger").animate({
+            opacity: 0
+        } /* , function() { $("div.alert-danger").remove(); } */ );
+    });
+    
+    $("div.panel-info").hover(function() {
+        $(this).removeClass("panel-info");
+        $(this).addClass("panel-warning");
+    }, function() {
+        $(this).removeClass("panel-warning");
+        $(this).addClass("panel-info");
+    });
+
+</script>
