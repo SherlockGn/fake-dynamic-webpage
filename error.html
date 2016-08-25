@@ -3,6 +3,18 @@
     <script src="jquery.min.js"></script>
     <script src="bootstrap.min.js"></script>
     <link href="bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome.min.css" rel="stylesheet">
+    
+    <script src="ZeroClipboard.js"></script>
+    
+    <style>
+        div.panel-heading {
+            font-size: 20px;
+        }
+        div.panel-body {
+            font-size: 16px;
+        }
+    </style>
 </head>
 <body>
     <div class="alert alert-danger" style="text-align: center"> 
@@ -23,41 +35,76 @@
         <div class="panel-heading"> 
             <h3 class="panel-title">Ensure you're using Chrome</h3> 
         </div> 
-        <div class="panel-body"> 
-            <p>It is a pity that this system is now only support Chrome right now. </p>
-            <p>The official website of Chrome is <a href="https://www.google.com/intl/en/chrome/browser/desktop/">https://www.google.com/intl/en/chrome/browser/desktop/</a> </p>
-            <p>And the Chinese official website is <a href="http://www.chromeliulanqi.com/">http://www.chromeliulanqi.com/</a></p>
+        <div class="panel-body">
+            <ul class="list-group"> 
+                <li class="list-group-item">It is a pity that this system is now only support Chrome right now.</li> 
+                <li class="list-group-item">The official website of Chrome is <a href="https://www.google.com/intl/en/chrome/browser/desktop/">https://www.google.com/intl/en/chrome/browser/desktop/</a> </li> 
+                <li class="list-group-item">And the Chinese official website is <a href="http://www.chromeliulanqi.com/">http://www.chromeliulanqi.com/</a></li> 
+            </ul>
         </div> 
     </div>
     <br>
     <div class="panel panel-info" style="width: 80%; margin: auto;"> 
         <div class="panel-heading"> 
-            <h3 class="panel-title">Open your windows command line tool</h3> 
-        </div>
-        <div class="panel-body"> 
-            <p>Press win + R in the keyboard to open the "run" process</p>
-            <p>Input "cmd" in the text field</p>
-            <p>Press "enter" to open command line</p>
-        </div>
+            <h3 class="panel-title">Open your command line in Windows</h3> 
+        </div> 
+        <div class="panel-body">
+            <ul class="list-group"> 
+                <li class="list-group-item">Press win + R in the keyboard to open the "run" process</li> 
+                <li class="list-group-item">Input "cmd" in the text field</li> 
+                <li class="list-group-item">Press "enter" to open command line</li> 
+            </ul>
+        </div> 
     </div>
     <br>
     <div class="panel panel-info" style="width: 80%; margin: auto;"> 
         <div class="panel-heading"> 
             <h3 class="panel-title">Find where is your chrome installed</h3> 
-        </div>
-        <div class="panel-body"> 
-            <p>Just click the button and make it inside your clipboard</p>
-            <p>
-                If your chrome is in your "C:\Program Files (x86)" <br>
-                <input type="text" style="width: 50%; float: left" class="form-control" id="name" placeholder="please input the command" value="C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"/>
-                <input type="text" style="width: 30%" class="form-control" id="name" placeholder="please input the command" value="--disable-web-security --user-data-dir"/>
-            </p>
-            <p>
-                If your chrome is in your "C:\Program Files"
-                <input type="text" style="width: 50%" class="form-control" id="name" placeholder="please input the command" value="C:\Program Files\Google\Chrome\Application\chrome.exe"/>
-            </p>
-            <p>press "enter" to open command line</p>
-        </div>
+        </div> 
+        <div class="panel-body">
+            <ul class="list-group"> 
+                <li class="list-group-item">
+                    If your chrome is in your "C:\Program Files (x86)" <br>
+                    <input type="text" style="width: 50%; float: left" class="form-control firstInput" placeholder="please input the command" value="C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"/>
+                    <input type="text" disabled style="width: 30%; float: left; margin-left: 7px" class="form-control secondInput" placeholder="please input the command" value="--disable-web-security --user-data-dir"/> &nbsp;
+                    <button id="btn1" class="btn btn-default" style="height: 32px;"><i class="fa fa-clipboard"></i></button>
+                </li> 
+                <li class="list-group-item">
+                    If your chrome is in your "C:\Program Files" <br>
+                    <input type="text" style="width: 50%; float: left" class="form-control firstInput" placeholder="please input the command" value="C:\Program Files\Google\Chrome\Application\chrome.exe"/>
+                    <input type="text" disabled style="width: 30%; float: left; margin-left: 7px" class="form-control secondInput" placeholder="please input the command" value="--disable-web-security --user-data-dir"/> &nbsp;
+                    <button id="btn2" class="btn btn-default" style="height: 32px;"><i class="fa fa-clipboard"></i></button>
+                </li> 
+                <li class="list-group-item">If neither of the above is OK, you can input the installed path by yourself</li> 
+            </ul>
+        </div> 
+    </div>
+    <br>
+    <div class="panel panel-info" style="width: 80%; margin: auto;"> 
+        <div class="panel-heading"> 
+            <h3 class="panel-title">Close the chrome browser now</h3> 
+        </div> 
+        <div class="panel-body">
+            <ul class="list-group"> 
+                <li class="list-group-item">To make your browser support cross-domain, restarting is necessary</li> 
+                <li class="list-group-item">Before closing the window, you are suggested to reference the next tip in advance :)</li> 
+            </ul>
+        </div> 
+    </div>
+    <br>
+    <div class="panel panel-info" style="width: 80%; margin: auto;"> 
+        <div class="panel-heading"> 
+            <h3 class="panel-title">Restart your chrome</h3> 
+        </div> 
+        <div class="panel-body">
+            <ul class="list-group"> 
+                <li class="list-group-item">Right click in the command line and choose "paste" option</li> 
+                <li class="list-group-item">Press "enter", and you will restart chrome</li> 
+                <li class="list-group-item">Reopen this website, and you may enjoy the fake-dynamic-webpage</li>
+            </ul>
+        </div> 
+    </div>
+    <div class="footer" style="height: 100px">
     </div>
 <body>
 </html>
@@ -69,13 +116,59 @@
             opacity: 0
         } /* , function() { $("div.alert-danger").remove(); } */ );
     });
-    
+
     $("div.panel-info").hover(function() {
         $(this).removeClass("panel-info");
-        $(this).addClass("panel-warning");
+        $(this).addClass("panel-success");
     }, function() {
-        $(this).removeClass("panel-warning");
+        $(this).removeClass("panel-success");
         $(this).addClass("panel-info");
     });
 
+    function setClipBoard() {
+        $(window).resize(function(){
+           clip1.reposition();
+           clip2.reposition();
+        });
+        
+        var btn1 = $("#btn1");
+        var clip1 = new ZeroClipboard.Client();
+        clip1.setHandCursor(true);
+        clip1.addEventListener('mouseOver', function (client){    
+            clip1.setText('"' + btn1.siblings(".firstInput").val() + '"' + " " + btn1.siblings(".secondInput").val());
+        });
+        clip1.glue(btn1.attr("id"));
+        clip1.setCSSEffects( true );
+        $("#" + clip1.movieId).hover(function() {
+            btn1.removeClass("btn-default");
+            btn1.addClass("btn-success");
+        }, function() {
+            btn1.removeClass("btn-success");
+            btn1.addClass("btn-default");
+        });
+        
+        var btn2 = $("#btn2");
+        var clip2 = new ZeroClipboard.Client();
+        clip2.setHandCursor(true);
+        clip2.addEventListener('mouseOver', function (client){    
+            clip2.setText('"' + btn2.siblings(".firstInput").val() + '"' + " " + btn2.siblings(".secondInput").val());
+        });
+        clip2.glue(btn2.attr("id"));
+        clip2.setCSSEffects( true );
+        $("#" + clip2.movieId).hover(function() {
+            btn2.removeClass("btn-default");
+            btn2.addClass("btn-success");
+        }, function() {
+            btn2.removeClass("btn-success");
+            btn2.addClass("btn-default");
+        });
+    }
+    
+    setClipBoard();
 </script>
+
+
+
+
+
+

@@ -1,0 +1,38 @@
+<html>
+<head>
+    <script src="jquery.min.js"></script>
+</head>
+
+<body>
+    <pre id="preId"><pre>
+</body>
+</html>
+
+<script>
+try {
+    var success = null;
+    $.ajax({
+        url: "http://tech.ifeng.com/product/",
+        dataType: "text",
+        success: function(response) {
+            success = true;
+            console.log("yes");
+            handle(response);
+        },
+        error: function() {
+            window.location.href = "error.html";
+        },
+        async: false
+    })
+    if(success === null) window.location.href = "error.html";
+} catch(ex) {
+    window.location.href = "error.html";
+}
+
+function handle(text) {
+    var re = new RegExp('<a href=\"(.+?)\\.shtml\"(\\s+?)target=\"_blank\"(\\s+?)title=\"(.+?)\">(.*?)</a>','g');
+    var arrs = text.match(re);
+    for(var i= 0; i< arrs.length; i++)
+        console.log(arrs[i]);
+}
+</script>
