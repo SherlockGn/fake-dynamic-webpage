@@ -1,0 +1,92 @@
+<html>
+<head>
+    <title></title>
+    <script src="jquery.min.js"></script>
+    <script src="bootstrap.min.js"></script>
+    <link href="bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome.min.css" rel="stylesheet">
+    <script src="jquery.session.js"></script>
+<head>
+
+<style>
+.mainText {
+    font-size: 25;
+}
+.center {
+    margin-left: auto;
+    margin-right: auto;
+    text-align:center;
+}
+p {
+    text-indent: 2em;
+}
+img {
+    margin-left: auto;
+    margin-right: auto;
+}
+span {
+    margin-left: auto;
+    margin-right: auto;
+    text-align:center;
+    font-size: 20;
+}
+h2 {
+    font-weight: bold;
+}
+</style>
+
+<body>
+
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-1 column">
+        </div>
+        <div class="col-md-10 column">
+            <div class="page-header">
+                <h1 class="mainTitle">Example page header</h1>
+                <h1 class="subTitle"><small>Example page header<small></h1>
+            </div>
+            <div class="mainText">
+            <div>
+        </div>
+        <div class="col-md-1 column">
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+
+<script>
+
+var data = $.session.get("data");
+if(data !== null) {
+    data = JSON.parse(data);
+    
+    data.data = data.data.replace(new RegExp("<strong>", "mg"), "<h2>");
+    data.data = data.data.replace(new RegExp("<\\/strong>", "mg"), "</h2>");
+    
+    $("div.mainText").append(data.data);
+    
+    $("div.mainText").find("img").addClass("img-responsive");
+
+    console.log(data);
+    
+    $("span").parent("p").addClass("center");
+    
+    $("h1.mainTitle").html(data.title);
+    $("h1.subTitle").children("small").html("原地址: " + data.link);
+    
+    $("h1.subTitle").children("small").hover(function() {
+        $(this).css("cursor","pointer");
+        $(this).css("text-decoration","underline");
+    }, function() {
+        $(this).css("cursor","default");
+        $(this).css("text-decoration","none");
+    });
+    $("h1.subTitle").children("small").click(function() {
+        window.open(data.link);
+    });
+}
+
+</script>
