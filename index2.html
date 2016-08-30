@@ -22,10 +22,10 @@
                 </div>
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
-                        <li class="active">
+                        <li>
                              <a href="index.html">凤凰网科技</a>
                         </li>
-                        <li>
+                        <li class="active">
                              <a href="index2.html">慕课网手记</a>
                         </li>
                         <li class="dropdown">
@@ -104,7 +104,7 @@
 try {
     var success = null;
     $.ajax({
-        url: "http://tech.ifeng.com/product/",
+        url: "http://www.imooc.com/article/hot",
         dataType: "text",
         success: function(response) {
             success = true;
@@ -130,9 +130,10 @@ function searchBtnClicked() {
     var inputContent = inputView.val();
     if(inputContent !== "") {
         var s = $("body").find("div.page-header");
+        s.removeClass("searched");
         s.each(function() {
             var header = $(this);
-            if(header.html().indexOf(inputContent) !== -1) {
+            if(header.html().toLowerCase().indexOf(inputContent.toLowerCase()) !== -1) {
                 header.addClass("searched");
             }
         });
@@ -170,13 +171,11 @@ function linkString(linkObject, display) {
 }
 
 function legalLink(link) {
-    var gs = link.split("/");
-    var last = gs[gs.length - 1];
-    return new RegExp("\\d+", "g").test(last);
+    return true;
 }
 
 function handleTitle(title) {
-    var re = new RegExp("(.+?)[\"\'](\\s+?)class");
+    var re = new RegExp("<h3>([\\s\\S]+?)</h3>");
     var handled = title;
     if(re.test(title)) {
         handled = re.exec(title)[1];
@@ -214,10 +213,9 @@ function loadPPT() {
 }
 
 function setAllPics(text, title) {
-    var re = new RegExp("<img(\\s+?)src=[\"\']([\\s\\S]+?)[\"\']", 'mg');
-    var rre = new RegExp("<img(\\s+?)src=[\"\']([\\s\\S]+?)[\"\']");
+    var re = new RegExp("<img([^<>]+)src=[\"\']([\\s\\S]+?)[\"\']", 'mg');
+    var rre = new RegExp("<img([^<>]+)src=[\"\']([\\s\\S]+?)[\"\']");
     var pics = text.match(re);
-    console.log(pics);
     if(pics == null || pics.length === 0)
         return;
     for(var i = 0; i < pics.length; i++) {
@@ -238,7 +236,7 @@ function setAllPics(text, title) {
 }
 
 function getPres(text) {
-    var re = new RegExp("<img(\\s+?)src=[\"\']([\\s\\S]+?)[\"\']", 'mg');
+    var re = new RegExp("<img([^<>]+)src=[\"\']([\\s\\S]+?)[\"\']", 'mg');
     var pics = text.match(re);
     var imgurl, predata;
     if(pics == null || pics.length === 0)
@@ -272,7 +270,7 @@ function handleLink(linkObject, barTotal) {
                 linkObject.predata = pre.predata;
                 linkObject.data = ret;
             }
-            console.log(linkObject);
+//          console.log(linkObject);
             var dom = $.parseHTML(linkString(linkObject, false));
             var linkBoard = $(dom);
             $("body").append(linkBoard);
@@ -311,6 +309,8 @@ function removeAnnotation(text) {
     var ret = text.replace(re1, "").trim().replace(new RegExp('<p>(\\s*?)<\\/p>', 'g'), "");
     ret = ret.replace(new RegExp('(\\s*?)class=\"([\\s\\S]*?)\"(\\s*?)', 'mg'), "");
     ret = ret.replace(new RegExp('(\\s*?)width=\"([\\s\\S]*?)\"(\\s*?)', 'mg'), "");
+    ret = ret.replace(new RegExp('(\\s*?)title=[\"\']([\\s\\S]*?)[\"\'](\\s*?)', 'mg'), "");
+    ret = ret.replace(new RegExp('(\\s*?)title=([\\S]*?)(\\s+?)', 'mg'), " ");
     ret = ret.replace(new RegExp('(\\s*?)height=\"([\\s\\S]*?)\"(\\s*?)', 'mg'), "");
     ret = ret.replace(new RegExp('(\\s*?)alt=\"([\\s\\S]*?)\"(\\s*?)', 'mg'), "");
     ret = ret.replace(new RegExp('(\\s*?)style=\"([\\s\\S]*?)\"(\\s*?)', 'mg'), "");
@@ -319,15 +319,32 @@ function removeAnnotation(text) {
     ret = ret.replace(new RegExp('<a([\\s\\S]*?)>', 'mg'), "");
     ret = ret.replace(new RegExp('</a>', 'mg'), "");
     ret = ret.replace(new RegExp('&nbsp;', 'mg'), "");
+    
+    ret = ret.replace(new RegExp('<blockquote>(\\s*?)<p>', 'mg'), "<span>");
+    ret = ret.replace(new RegExp('<\\/p>(\\s*?)<\\/blockquote>', 'mg'), "</span>");
     return ret;
 }
 
 function handleLinkText(text) {
-    var re = new RegExp("<!\\-\\-mainContent begin\\-\\->([\\s\\S]+?)<!\\-\\-mainContent end\\-\\->", "mg");
+    var re = new RegExp('<div class="detail-content(\\s+?)">([\\s\\S]+)', "mg");
     var content = re.exec(text);
     if(content !== null) {
-        content = content[1];
+        content = content[2];
+        var stackNumber = 0, successIndex;
+        for(var i = 0; i < content.length; i++) {
+            if(content[i] === '<' && content[i + 1] === 'd' && content[i + 2] === 'i' && content[i + 3] === 'v') {
+                stackNumber++;
+            } else if(content[i] === '<' && content[i + 1] === '/' && content[i + 2] === 'd' && content[i + 3] === 'i' && content[i + 4] === 'v' && content[i + 5] === '>') {
+                stackNumber--;
+            }
+            if(stackNumber === -1) {
+                successIndex = i;
+                break;
+            }
+        }
+        content = content.substring(0, successIndex);
         content = removeAnnotation(content);
+        console.log(content);
         return content;
     } else {
         return false;
@@ -336,14 +353,16 @@ function handleLinkText(text) {
 
 function handle(text) {
     var links = [];
-    var re = new RegExp('<a href=[\"\'](.+?)\\.shtml[\"\'](\\s+?)target=[\"\']_blank[\"\'](\\s+?)title=[\"\'](.+?)[\"\']>(.*?)','g');
+    var re = new RegExp('<a href=\\"/article/([\\d]+?)\"([\\s\\S]+?)>([\\s\\S]+?)</a>','mg');
     var arrs = text.match(re);
     for(var i = 0; i < arrs.length; i++) {
-        var groups = re.exec(arrs[i]);
-        if(groups === null) continue;
-        var link = groups[1] + ".shtml";
-        var title = groups[4];
-        if(legalLink(link)) {
+        var rre = new RegExp('<a href=\\"/article/([\\d]+?)\"([\\s\\S]+?)>([\\s\\S]+?)</a>');
+        var groups = rre.exec(arrs[i]);
+        if(groups === null) {console.log(null); continue;}
+        var link = 'http://www.imooc.com/article/' + groups[1];
+        var title = groups[3];
+        if(title.indexOf("<img") !== -1) continue;
+        if(legalLink(link, title)) {
             links.push({
                 link: link,
                 title: handleTitle(title),
@@ -359,6 +378,7 @@ function handle(text) {
     links.sort(function(link1, link2) { return link1.link > link2.link? 1: (link1.link === link2.link? 0: -1); });
     dropReaptedElement(links, function(link1, link2) { return link1.link > link2.link? 1: (link1.link === link2.link? 0: -1); });
     
+    console.log(links);
     for(var i = 0; i < links.length; i++) {
         handleLink(links[i], links.length);
     }
